@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ShopLux — Premium Sneakers</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#f7f5f2;
+  --white:#ffffff;
+  --black:#111111;
+  --gray-100:#f0ede8;
+  --gray-200:#e0dbd3;
+  --gray-400:#a09890;
+  --gray-600:#6b6560;
+  --accent:#e84545;
+  --accent-light:#fce8e8;
+  --green:#16a34a;
+  --font-head:'Syne',sans-serif;
+  --font-body:'Inter',sans-serif;
+}
+body{font-family:var(--font-body);background:var(--bg);color:var(--black);min-height:100vh;}
+
+/* NAV */
+nav{background:var(--white);border-bottom:1px solid var(--gray-200);padding:0 5%;position:sticky;top:0;z-index:50;}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px;}
+.nav-logo{font-family:var(--font-head);font-size:1.3rem;font-weight:700;letter-spacing:-0.02em;}
+.nav-logo span{color:var(--accent);}
+.nav-right{display:flex;align-items:center;gap:1.5rem;}
+.nav-link{font-size:0.85rem;color:var(--gray-600);text-decoration:none;font-weight:500;}
+.nav-link:hover{color:var(--black);}
+.cart-btn{position:relative;background:var(--black);color:white;border:none;padding:8px 18px;border-radius:6px;font-size:0.85rem;font-weight:500;cursor:pointer;font-family:var(--font-body);display:flex;align-items:center;gap:6px;}
+.cart-count{background:var(--accent);color:white;font-size:0.65rem;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;padding:0 4px;}
+
+/* BREADCRUMB */
+.breadcrumb{padding:14px 5%;max-width:1200px;margin:0 auto;font-size:0.78rem;color:var(--gray-400);display:flex;gap:8px;align-items:center;}
+.breadcrumb a{color:var(--gray-400);text-decoration:none;}.breadcrumb a:hover{color:var(--black);}
+.breadcrumb .sep{color:var(--gray-200);}
+.breadcrumb .current{color:var(--black);font-weight:500;}
+
+/* MAIN PRODUCT */
+.product-wrap{max-width:1200px;margin:0 auto;padding:0 5% 4rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+
+/* IMAGE GALLERY */
+.gallery{position:sticky;top:80px;}
+.main-img{background:var(--white);border-radius:16px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:8rem;margin-bottom:12px;border:1px solid var(--gray-200);overflow:hidden;position:relative;cursor:zoom-in;transition:transform 0.3s;}
+.main-img:hover .zoom-hint{opacity:1;}
+.zoom-hint{position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,0.6);color:white;font-size:0.7rem;padding:4px 10px;border-radius:20px;opacity:0;transition:opacity 0.2s;}
+.img-emoji{font-size:7rem;transition:transform 0.3s;}
+.main-img:hover .img-emoji{transform:scale(1.08);}
+.thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.thumb{background:var(--white);border-radius:10px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:2rem;cursor:pointer;border:2px solid transparent;transition:border-color 0.2s;}
+.thumb:hover,.thumb.active{border-color:var(--black);}
+
+/* PRODUCT INFO */
+.prod-info{padding-top:0.5rem;}
+.prod-badge{display:inline-block;background:var(--accent-light);color:var(--accent);font-size:0.72rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:1rem;}
+.prod-name{font-family:var(--font-head);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;line-height:1.1;margin-bottom:0.5rem;letter-spacing:-0.02em;}
+.prod-sku{font-size:0.8rem;color:var(--gray-400);margin-bottom:1.25rem;}
+.rating-row{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;}
+.stars{color:#f59e0b;font-size:0.9rem;letter-spacing:2px;}
+.rating-count{font-size:0.82rem;color:var(--gray-400);}
+.price-row{display:flex;align-items:baseline;gap:12px;margin-bottom:0.5rem;}
+.price-now{font-family:var(--font-head);font-size:2rem;font-weight:700;}
+.price-old{font-size:1.1rem;color:var(--gray-400);text-decoration:line-through;}
+.price-save{font-size:0.78rem;background:var(--accent-light);color:var(--accent);padding:3px 10px;border-radius:12px;font-weight:600;}
+.stock-line{font-size:0.82rem;color:var(--green);font-weight:500;margin-bottom:1.5rem;display:flex;align-items:center;gap:5px;}
+.stock-dot{width:6px;height:6px;border-radius:50%;background:var(--green);}
+.divider{height:1px;background:var(--gray-200);margin:1.5rem 0;}
+
+/* COLOR */
+.opt-label{font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray-600);margin-bottom:0.75rem;}
+.color-opts{display:flex;gap:10px;margin-bottom:1.5rem;}
+.color-opt{width:30px;height:30px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:transform 0.15s;}
+.color-opt:hover,.color-opt.active{border-color:var(--black);transform:scale(1.1);}
+
+/* SIZE */
+.size-opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem;}
+.size-opt{min-width:48px;height:44px;border:1.5px solid var(--gray-200);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.875rem;font-weight:500;cursor:pointer;background:var(--white);transition:all 0.15s;}
+.size-opt:hover,.size-opt.active{border-color:var(--black);background:var(--black);color:white;}
+.size-opt.out{opacity:0.35;cursor:not-allowed;text-decoration:line-through;}
+
+/* QTY + ADD */
+.qty-add-row{display:flex;gap:10px;margin-bottom:1rem;}
+.qty-wrap{display:flex;align-items:center;border:1.5px solid var(--gray-200);border-radius:8px;overflow:hidden;}
+.qty-btn{width:40px;height:50px;border:none;background:transparent;font-size:1.2rem;cursor:pointer;color:var(--black);transition:background 0.15s;}
+.qty-btn:hover{background:var(--gray-100);}
+.qty-num{width:44px;text-align:center;font-weight:500;font-size:0.95rem;border:none;background:transparent;outline:none;}
+.add-btn{flex:1;background:var(--black);color:white;border:none;border-radius:8px;font-size:0.95rem;font-weight:600;cursor:pointer;height:50px;font-family:var(--font-head);letter-spacing:0.02em;transition:background 0.2s,transform 0.1s;}
+.add-btn:hover{background:#333;}
+.add-btn:active{transform:scale(0.98);}
+.add-btn.added{background:var(--green);}
+.wishlist-btn{width:50px;height:50px;border:1.5px solid var(--gray-200);border-radius:8px;background:white;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color 0.2s,background 0.2s;}
+.wishlist-btn:hover,.wishlist-btn.liked{border-color:#e84545;background:#fce8e8;}
+
+/* FEATURES */
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:1.5rem;}
+.feat-item{background:var(--gray-100);border-radius:10px;padding:12px;display:flex;align-items:center;gap:10px;}
+.feat-icon{font-size:1.1rem;}
+.feat-text{font-size:0.78rem;color:var(--gray-600);line-height:1.4;}
+.feat-text strong{color:var(--black);font-weight:600;display:block;}
+
+/* TABS */
+.tabs-section{max-width:1200px;margin:0 auto;padding:0 5% 4rem;}
+.tab-nav{display:flex;border-bottom:2px solid var(--gray-200);margin-bottom:2rem;gap:0;}
+.tab-btn{padding:14px 24px;font-size:0.88rem;font-weight:500;background:none;border:none;cursor:pointer;color:var(--gray-400);font-family:var(--font-body);border-bottom:2px solid transparent;margin-bottom:-2px;transition:color 0.2s;}
+.tab-btn.active{color:var(--black);border-bottom-color:var(--black);}
+.tab-content{display:none;}.tab-content.active{display:block;}
+.review-card{background:white;border-radius:12px;padding:1.25rem;margin-bottom:12px;border:1px solid var(--gray-200);}
+.review-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.review-name{font-weight:600;font-size:0.9rem;}
+.review-date{font-size:0.78rem;color:var(--gray-400);}
+.review-stars{color:#f59e0b;font-size:0.85rem;margin-bottom:8px;}
+.review-text{font-size:0.87rem;color:var(--gray-600);line-height:1.65;}
+.spec-table{width:100%;border-collapse:collapse;}
+.spec-table tr{border-bottom:1px solid var(--gray-200);}
+.spec-table td{padding:12px 8px;font-size:0.9rem;}
+.spec-table td:first-child{color:var(--gray-400);font-weight:500;width:40%;}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--black);color:white;padding:12px 24px;border-radius:30px;font-size:0.88rem;font-weight:500;z-index:200;transition:transform 0.3s ease;pointer-events:none;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+@media(max-width:768px){
+  .product-wrap{grid-template-columns:1fr;gap:2rem;}
+  .gallery{position:static;}
+  .feat-grid{grid-template-columns:1fr;}
+  .qty-add-row{flex-wrap:wrap;}
+  .add-btn{min-width:200px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">Shop<span>Lux</span></div>
+    <div class="nav-right">
+      <a href="#" class="nav-link">New Arrivals</a>
+      <a href="#" class="nav-link">Men</a>
+      <a href="#" class="nav-link">Women</a>
+      <button class="cart-btn" onclick="openCart()">🛍️ Cart <span class="cart-count" id="cartCount">0</span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="breadcrumb" style="max-width:1200px;padding-top:16px;">
+  <a href="#">Home</a><span class="sep">/</span>
+  <a href="#">Sneakers</a><span class="sep">/</span>
+  <span class="current">AirRun Pro X</span>
+</div>
+
+<div class="product-wrap">
+  <!-- GALLERY -->
+  <div class="gallery">
+    <div class="main-img" id="mainImg">
+      <span class="img-emoji" id="mainEmoji">👟</span>
+      <div class="zoom-hint">Hover to zoom</div>
+    </div>
+    <div class="thumbs">
+      <div class="thumb active" onclick="switchImg(this,'👟')">👟</div>
+      <div class="thumb" onclick="switchImg(this,'🔵')">🔵</div>
+      <div class="thumb" onclick="switchImg(this,'⚡')">⚡</div>
+      <div class="thumb" onclick="switchImg(this,'🎯')">🎯</div>
+    </div>
+  </div>
+
+  <!-- INFO -->
+  <div class="prod-info">
+    <div class="prod-badge">Best Seller</div>
+    <h1 class="prod-name">AirRun Pro X<br>Sneakers</h1>
+    <div class="prod-sku">SKU: ARX-2025-BLK</div>
+    <div class="rating-row">
+      <span class="stars">★★★★★</span>
+      <span style="font-size:0.88rem;font-weight:600;">4.8</span>
+      <span class="rating-count">(124 reviews)</span>
+    </div>
+    <div class="price-row">
+      <span class="price-now">Rs. 8,499</span>
+      <span class="price-old">Rs. 12,000</span>
+      <span class="price-save">29% OFF</span>
+    </div>
+    <div class="stock-line"><span class="stock-dot"></span> In Stock — Only 6 left!</div>
+
+    <div class="divider"></div>
+
+    <div class="opt-label">Color — <span id="colorName" style="color:var(--black);text-transform:none;letter-spacing:normal;">Midnight Black</span></div>
+    <div class="color-opts">
+      <div class="color-opt active" style="background:#111;" title="Midnight Black" onclick="selectColor(this,'Midnight Black')"></div>
+      <div class="color-opt" style="background:#1a56db;" title="Ocean Blue" onclick="selectColor(this,'Ocean Blue')"></div>
+      <div class="color-opt" style="background:#e84545;" title="Lava Red" onclick="selectColor(this,'Lava Red')"></div>
+      <div class="color-opt" style="background:#f0ede8;border:2px solid #d0ccc5;" title="Cloud White" onclick="selectColor(this,'Cloud White')"></div>
+    </div>
+
+    <div class="opt-label">Size — <span id="sizeHint" style="color:var(--accent);text-transform:none;letter-spacing:normal;font-weight:400;">Please select a size</span></div>
+    <div class="size-opts">
+      <div class="size-opt out" title="Out of stock">38</div>
+      <div class="size-opt" onclick="selectSize(this)">39</div>
+      <div class="size-opt" onclick="selectSize(this)">40</div>
+      <div class="size-opt" onclick="selectSize(this)">41</div>
+      <div class="size-opt" onclick="selectSize(this)">42</div>
+      <div class="size-opt" onclick="selectSize(this)">43</div>
+      <div class="size-opt out" title="Out of stock">44</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="qty-add-row">
+      <div class="qty-wrap">
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <input class="qty-num" type="number" id="qty" value="1" min="1" max="6" readonly/>
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
+      </div>
+      <button class="add-btn" id="addBtn" onclick="addToCart()">Add to Cart</button>
+      <button class="wishlist-btn" id="wishBtn" onclick="toggleWish(this)" title="Add to wishlist">♡</button>
+    </div>
+
+    <button style="width:100%;height:50px;border-radius:8px;border:1.5px solid var(--gray-200);background:white;font-size:0.95rem;font-weight:600;cursor:pointer;font-family:var(--font-head);" onclick="showToast('Redirecting to checkout...')">Buy Now</button>
+
+    <div class="feat-grid">
+      <div class="feat-item"><span class="feat-icon">🚚</span><div class="feat-text"><strong>Free Delivery</strong>On orders over Rs. 5,000</div></div>
+      <div class="feat-item"><span class="feat-icon">↩️</span><div class="feat-text"><strong>Easy Returns</strong>30-day return policy</div></div>
+      <div class="feat-item"><span class="feat-icon">✅</span><div class="feat-text"><strong>100% Authentic</strong>Guaranteed original</div></div>
+      <div class="feat-item"><span class="feat-icon">🔒</span><div class="feat-text"><strong>Secure Payment</strong>Encrypted checkout</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-section">
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab(this,'desc')">Description</button>
+    <button class="tab-btn" onclick="switchTab(this,'specs')">Specifications</button>
+    <button class="tab-btn" onclick="switchTab(this,'reviews')">Reviews (124)</button>
+  </div>
+  <div class="tab-content active" id="tab-desc">
+    <p style="font-size:0.95rem;line-height:1.8;color:var(--gray-600);max-width:700px;">The <strong style="color:var(--black)">AirRun Pro X</strong> is engineered for peak performance and everyday comfort. Featuring a breathable mesh upper, cushioned midsole with responsive foam technology, and a durable rubber outsole with superior grip, these sneakers are built for both athletic performance and street-ready style.</p>
+    <ul style="margin-top:1.25rem;padding-left:1.25rem;display:flex;flex-direction:column;gap:8px;">
+      <li style="font-size:0.9rem;color:var(--gray-600);">Lightweight breathable mesh upper</li>
+      <li style="font-size:0.9rem;color:var(--gray-600);">ProFoam™ cushioning midsole for all-day comfort</li>
+      <li style="font-size:0.9rem;color:var(--gray-600);">Anti-slip rubber outsole with flex grooves</li>
+      <li style="font-size:0.9rem;color:var(--gray-600);">Padded collar and tongue for ankle support</li>
+      <li style="font-size:0.9rem;color:var(--gray-600);">Available in 4 colorways</li>
+    </ul>
+  </div>
+  <div class="tab-content" id="tab-specs">
+    <table class="spec-table">
+      <tr><td>Brand</td><td>ShopLux</td></tr>
+      <tr><td>Model</td><td>AirRun Pro X</td></tr>
+      <tr><td>Upper Material</td><td>Engineered Mesh</td></tr>
+      <tr><td>Sole Material</td><td>Rubber</td></tr>
+      <tr><td>Closure Type</td><td>Lace-up</td></tr>
+      <tr><td>Available Sizes</td><td>39 – 43</td></tr>
+      <tr><td>Colors</td><td>Midnight Black, Ocean Blue, Lava Red, Cloud White</td></tr>
+      <tr><td>Weight</td><td>280g (per shoe, size 42)</td></tr>
+      <tr><td>Warranty</td><td>6 months manufacturing defects</td></tr>
+    </table>
+  </div>
+  <div class="tab-content" id="tab-reviews">
+    <div class="review-card">
+      <div class="review-head"><span class="review-name">Ayesha K.</span><span class="review-date">March 2025</span></div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Absolutely love these sneakers! Super comfortable and the quality is amazing for the price. Wore them for a 5km walk and my feet felt great. Highly recommend the Ocean Blue color.</p>
+    </div>
+    <div class="review-card">
+      <div class="review-head"><span class="review-name">Hassan R.</span><span class="review-date">February 2025</span></div>
+      <div class="review-stars">★★★★☆</div>
+      <p class="review-text">Great shoe, runs slightly small so I'd suggest sizing up. The foam cushioning is excellent and they look premium. Delivery was fast too.</p>
+    </div>
+    <div class="review-card">
+      <div class="review-head"><span class="review-name">Sara M.</span><span class="review-date">January 2025</span></div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Best sneakers I've owned. Wore them to the gym and on casual days and they hold up perfectly. The Black color goes with everything!</p>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let cartCount=0, selectedSize='', wishLiked=false;
+function switchImg(el,emoji){document.querySelectorAll('.thumb').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.getElementById('mainEmoji').textContent=emoji;}
+function selectColor(el,name){document.querySelectorAll('.color-opt').forEach(c=>c.classList.remove('active'));el.classList.add('active');document.getElementById('colorName').textContent=name;}
+function selectSize(el){if(el.classList.contains('out'))return;document.querySelectorAll('.size-opt:not(.out)').forEach(s=>s.classList.remove('active'));el.classList.add('active');selectedSize=el.textContent.trim();document.getElementById('sizeHint').textContent='Size '+selectedSize+' selected';document.getElementById('sizeHint').style.color='var(--green)';}
+function changeQty(d){const el=document.getElementById('qty');const v=parseInt(el.value)+d;if(v>=1&&v<=6)el.value=v;}
+function addToCart(){if(!selectedSize){showToast('Please select a size first!');return;}const btn=document.getElementById('addBtn');const q=parseInt(document.getElementById('qty').value);cartCount+=q;document.getElementById('cartCount').textContent=cartCount;btn.textContent='✓ Added!';btn.classList.add('added');showToast(q+' item(s) added to cart!');setTimeout(()=>{btn.textContent='Add to Cart';btn.classList.remove('added');},2000);}
+function toggleWish(btn){wishLiked=!wishLiked;btn.classList.toggle('liked');btn.textContent=wishLiked?'♥':'♡';showToast(wishLiked?'Added to wishlist!':'Removed from wishlist');}
+function openCart(){showToast('Cart has '+cartCount+' item(s)');}
+function switchTab(btn,id){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));btn.classList.add('active');document.getElementById('tab-'+id).classList.add('active');}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+</script>
+</body>
+</html>
